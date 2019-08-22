@@ -8,6 +8,8 @@ body {
   padding-left:20px;
 
   background: #7f8c8d;
+  position:relative;
+  min-height:100vh;
 }
 
 .coutryList{
@@ -25,14 +27,14 @@ body {
   padding:3px 10px;
   border:solid 1px white;
   border-radius: 8px;
-  background: #e67e22;
+  background: #ddd;
   font-size: 15px;
   margin:2px;
 
 }
 
 .btn:hover{
-  background:#d86908;
+  background:coral;
 }
 
 .note{
@@ -45,4 +47,35 @@ body {
   padding:10px;
   margin-top:15px;
   text-align: center;
+  float:left;
+}
+
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width:88.5%;
+  margin:auto;
+  box-sizing: border-box;
+}
+
+.addNoteForm{
+  position:fixed;
+  background:#aaa;
+  padding:30px;
+  text-align: center;
+  width:25%;
+  height:auto;
+  border: solid 1px white;
+  border-radius:8px;
+  margin: 100px 0px 0px 560px;
+
+}
+
+.contentWrap{
+  padding-bottom: 2.5rem;
 }

@@ -3,15 +3,45 @@ import Note from './Note.js'
 import axios from 'axios'
 import './index.css'
 import noteService from './services/notes'
-import error from './services/error'
 
 //npx json-server --port 3001 --watch db.json
+
+const Footer = () =>{
+  const footerStyle = {
+    position: 'absolute',
+    bottom: '0',
+    width: '100%',
+    color: 'white',
+    fontStyle: 'italic',
+    background:'#333',
+    'text-align': 'center',
+    left: '0'
+
+  }
+
+  return (
+  <div style={footerStyle}>
+    <br />
+    <em>Note app, Kattenelvis</em>
+  </div>)
+} 
+
+const Notification = ({ message }) => {
+  if (message === null){
+      return null
+  }
+  return (
+      <div className="error">
+          {message}
+      </div>
+  )
+}
 
 const App = () => {
   const [notes, setNotes] = useState([]) 
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
-  const [errorMessage, setErrorMessage] = useState('some error happened...') 
+  const [errorMessage, setErrorMessage] = useState('Some error happened...') 
 
   useEffect(() =>{
     noteService
@@ -34,9 +64,13 @@ const App = () => {
       setNotes(notes.map(note => note.id !== id ? note : returnedNote))
     })
     .catch(error => {
-      alert(
-        `the note '${note.content}' was already deleted from server`
-      )
+      setErrorMessage(
+        `Note '${note.content}' was already removed from server`
+        )
+        setTimeout(() =>{
+          setErrorMessage(null)
+        }, 5000)
+            
       setNotes(notes.filter(n => n.id !== id))
     })
   }
@@ -81,26 +115,32 @@ const App = () => {
 
   return (
     <div>
+      <div class="contentWrap">
       <h1>Notes</h1>
 
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage}/>
 
       <ul>
         {rows()}
       </ul>
-      <form onSubmit={addNote}>
+      <form onSubmit={addNote} className="addNoteForm">
+        <h1>Add Note</h1>
         <input
           value={newNote} 
           onChange={handleNoteChange}
         />
-        <button type="submit">save</button>
-
+        <button type="submit" className="btn">save</button>
 
       </form>
-        <button onClick={() => setShowAll(!showAll)}>
+        <button onClick={() => setShowAll(!showAll)} className="btn">
             show {showAll ? 'important' : 'all'}
             </button>
+            
+      </div>
+
+      <Footer />
     </div>
+
   )
 }
 
