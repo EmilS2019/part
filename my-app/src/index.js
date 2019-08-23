@@ -4,7 +4,7 @@ import './index.css'
 //import axios from 'axios'
 import backend from './backend'
 
-  /*const CheckForDuplicate = (theArray, item) =>{
+  const CheckForDuplicate = (theArray, item) =>{
 
     for (let i = 0; i < theArray.length; i++) {
       const element = theArray[i];
@@ -16,7 +16,7 @@ import backend from './backend'
 
     }
     return true
-  }*/
+  }
 
   const Notification = ({message}) =>{
 
@@ -57,12 +57,13 @@ const App = () => {
     }, timeInSeconds * 1000)
   }
 
-  const displayNotification = (returnednumber, typeOfChange) =>{
+  const displayNotification = (returnednumber, typeOfChange, timeInSeconds) =>{
     setNotificationMessage(
       {message:`succesfully ${typeOfChange}: "${returnednumber.name}" 
-       with the number ${returnednumber.number}`, 
+       with the number "${returnednumber.pNumber}"`, 
        state: "success"}
       )
+      resetNotificationAfterTime(timeInSeconds)
   }
 
   useEffect(() => {
@@ -71,7 +72,8 @@ const App = () => {
       setPersons(persons)
       setShowAll(persons)
     })
- }, [])
+  }, [])
+  
 
   const handleSearch = (event) => {
     let searchValue = event.target.value
@@ -91,7 +93,7 @@ const App = () => {
   const highestID = () =>{
     let currentHighestID = 0;
     persons.forEach(number => {
-      number.id > currentHighestID ? currentHighestID = number.id : currentHighestID = currentHighestID
+      if (number.id > currentHighestID) currentHighestID = number.id
     })
     return currentHighestID
   }
@@ -110,7 +112,6 @@ const App = () => {
 
       let replaceExistingName = false;
       let replaceWithThisID = 0;
-      console.log(persons)
       persons.forEach(num => {
 
           if (num.name === number.name){
@@ -125,12 +126,7 @@ const App = () => {
           setPersons(persons.concat(returnednumber))
           setShowAll(persons.concat(returnednumber))
           newID++
-          setNotificationMessage(
-            {message:`succesfully added: "${returnednumber.name}" 
-              with the number ${returnednumber.number}`, 
-              state: "success"}
-            )
-            resetNotificationAfterTime(4)
+          displayNotification(returnednumber, "added", 8)
         })
       }
       else
@@ -138,15 +134,17 @@ const App = () => {
           const addnum = backend.editNumber(number, replaceWithThisID)
           addnum.then(returnednumber => 
           {
-              persons[replaceWithThisID - 1] = returnednumber
-              setPersons(persons)
+            persons.forEach(person => {
+              if (person.id === replaceWithThisID) person = returnednumber})
+              backend.getNumbers().then(returnedArray =>{
+                setPersons(returnedArray)
+                setShowAll(returnedArray)
+              })
               setShowAll(persons)
-              setNotificationMessage(
-                {message:`succesfully edited: "${returnednumber.name}" 
-                  with the number ${returnednumber.number}`, 
-                  state: "success"}
-                )
-                resetNotificationAfterTime(4)
+              displayNotification(returnednumber, "edited", 8)
+            })
+          .catch(error =>{
+            console.log(error)
           })
       }                               
       setNewName('')
@@ -166,15 +164,18 @@ const App = () => {
     if(window.confirm("Are you sure you wan't to delete this number?")){
         backend.deleteNumber(id).then(
             
-          personToDelete = persons[id],
-
+          persons.forEach(person => {
+            if (person.id === id){
+              personToDelete = person
+            }
+          }),
           setPersons(persons.filter(person => 
               person === personToDelete ? false : true
           )),
           setShowAll(persons.filter(person => 
               person === personToDelete ? false : true
           )),
-            //displayNotification()
+          displayNotification(personToDelete, "deleted", 8)
           )
     }}
       
