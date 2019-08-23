@@ -1,0 +1,28 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "dthfdh",
+      "date": "2019-08-23T13:37:55.872Z",
+      "important": false
+    },
+    {
+      "id": 2,
+      "content": "",
+      "date": "2019-08-23T13:37:56.745Z",
+      "important": true
+    },
+    {
+      "id": 3,
+      "content": "",
+      "date": "2019-08-23T13:37:57.102Z",
+      "important": false
+    },
+    {
+      "id": 4,
+      "content": "",
+      "date": "2019-08-23T13:37:57.492Z",
+      "important": false
+    }
+  ]
+}

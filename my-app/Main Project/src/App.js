@@ -14,7 +14,7 @@ const Footer = () =>{
     color: 'white',
     fontStyle: 'italic',
     background:'#333',
-    'text-align': 'center',
+    textAlign: 'center',
     left: '0'
 
   }
@@ -115,7 +115,7 @@ const App = () => {
 
   return (
     <div>
-      <div class="contentWrap">
+      <div className="contentWrap">
       <h1>Notes</h1>
 
       <Notification message={errorMessage}/>
