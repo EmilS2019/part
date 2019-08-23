@@ -8,14 +8,17 @@ import noteService from './services/notes'
 
 const Footer = () =>{
   const footerStyle = {
+    clear:'both',
     position: 'absolute',
+    height:'2.5rem',
     bottom: '0',
+    left: '0',
     width: '100%',
     color: 'white',
     fontStyle: 'italic',
     background:'#333',
     textAlign: 'center',
-    left: '0'
+
 
   }
 
@@ -95,11 +98,20 @@ const App = () => {
       setNewNote(event.target.value)
   }
 
+  const highestID = () =>{
+    let currentHighestID = 0;
+    notes.forEach(note => {
+      if (note.id > currentHighestID) currentHighestID = note.id
+    })
+    return currentHighestID
+  }
+  let newID = highestID() + 1
+
   const addNote = (event) => {
       event.preventDefault()
       
       const noteObject = {
-          id: notes.length + 1,
+          id: highestID() + 1,
           content: newNote,
           date: new Date().toISOString(),
           important: Math.random() > 0.5,
@@ -115,29 +127,30 @@ const App = () => {
 
   return (
     <div>
-      <div className="contentWrap">
-      <h1>Notes</h1>
+        <main>
+        <div className="contentWrap">
+          <h1>Notes</h1>
 
-      <Notification message={errorMessage}/>
+          <Notification message={errorMessage}/>
 
-      <ul>
-        {rows()}
-      </ul>
-      <form onSubmit={addNote} className="addNoteForm">
-        <h1>Add Note</h1>
-        <input
-          value={newNote} 
-          onChange={handleNoteChange}
-        />
-        <button type="submit" className="btn">save</button>
+          <ul>
+            {rows()}
+          </ul>
+          <form onSubmit={addNote} className="addNoteForm">
+            <h1>Add Note</h1>
+            <input
+              value={newNote} 
+              onChange={handleNoteChange}
+            />
+            <button type="submit" className="btn">save</button>
 
-      </form>
+          </form>
         <button onClick={() => setShowAll(!showAll)} className="btn">
-            show {showAll ? 'important' : 'all'}
-            </button>
-            
-      </div>
-
+          show {showAll ? 'important' : 'all'}
+        </button>
+                
+        </div>
+      </main>
       <Footer />
     </div>
 
