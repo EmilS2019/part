@@ -14,7 +14,6 @@ body {
     color:white;
     list-style-type: none;
     font-size: 18px;
-  
   }
   
   .countryLi{
@@ -30,3 +29,19 @@ body {
   
   }
   
+  .notification{
+    background-color: white;
+    width:60%;
+    border: solid red 5px;
+    border-radius: 8px;
+    padding:10px;
+    margin:10px;
+  }
+
+  .notification[id="success"]{
+    border-color:lightgreen;
+  }
+  
+  .notification[id="fail"]{
+    border-color: red;
+  }

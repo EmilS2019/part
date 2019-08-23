@@ -1,49 +1,28 @@
 {
-  "persons": [
+  "notes": [
     {
-      "id": 5,
-      "name": "jgd",
-      "pNumber": "6666"
+      "id": 1,
+      "content": "dthfdh",
+      "date": "2019-08-23T13:37:55.872Z",
+      "important": false
     },
     {
-      "id": 11,
-      "name": "243",
-      "pNumber": "423342"
+      "id": 2,
+      "content": "",
+      "date": "2019-08-23T13:37:56.745Z",
+      "important": true
     },
     {
-      "id": 12,
-      "name": "hhh",
-      "pNumber": "4444"
+      "id": 3,
+      "content": "",
+      "date": "2019-08-23T13:37:57.102Z",
+      "important": false
     },
     {
-      "id": 13,
-      "name": "fs",
-      "pNumber": "5555"
-    },
-    {
-      "id": 14,
-      "name": "fs 7777",
-      "pNumber": ""
-    },
-    {
-      "id": 15,
-      "name": "555",
-      "pNumber": "666666"
-    },
-    {
-      "id": 16,
-      "name": "jgd 51",
-      "pNumber": ""
-    },
-    {
-      "id": 17,
-      "name": "jgd ",
-      "pNumber": "555555"
-    },
-    {
-      "id": 18,
-      "name": "adg",
-      "pNumber": "dga"
+      "id": 4,
+      "content": "",
+      "date": "2019-08-23T13:37:57.492Z",
+      "important": false
     }
   ]
 }
