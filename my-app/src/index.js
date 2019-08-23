@@ -57,6 +57,14 @@ const App = () => {
     }, timeInSeconds * 1000)
   }
 
+  const displayNotification = (returnednumber, typeOfChange) =>{
+    setNotificationMessage(
+      {message:`succesfully ${typeOfChange}: "${returnednumber.name}" 
+       with the number ${returnednumber.number}`, 
+       state: "success"}
+      )
+  }
+
   useEffect(() => {
     backend.getNumbers()
     .then(persons => {
@@ -78,63 +86,72 @@ const App = () => {
       person.name.toUpperCase().includes(term.toUpperCase()) 
       || person.pNumber.includes(term.toUpperCase())))
   }
+  
+  //This is to prevent an error 500 due to two numbers having the same ID 
+  const highestID = () =>{
+    let currentHighestID = 0;
+    persons.forEach(number => {
+      number.id > currentHighestID ? currentHighestID = number.id : currentHighestID = currentHighestID
+    })
+    return currentHighestID
+  }
+  let newID = highestID() + 1
+  
 
-  let newID = persons.length + 1
+  const handleSubmit = (event) => 
+  {
+      event.preventDefault()
+      
+      const number = {
+          id: newID,
+          name: newName,
+          pNumber: newPNum
+      }
 
-    const handleSubmit = (event) => 
-    {
-        event.preventDefault()
-        
-        const number = {
-            id: newID,
-            name: newName,
-            pNumber: newPNum
-        }
+      let replaceExistingName = false;
+      let replaceWithThisID = 0;
+      console.log(persons)
+      persons.forEach(num => {
 
-        let replaceExistingName = false;
-        let replaceWithThisID = 0;
-        console.log(persons)
-        persons.forEach(num => {
+          if (num.name === number.name){
+              replaceExistingName = true
+              replaceWithThisID = num.id
+          }
+      })
 
-            if (num.name === number.name){
-                replaceExistingName = true
-                replaceWithThisID = num.id
-            }
+      if (replaceExistingName === false){    
+          const addnum = backend.addNumber(number)
+          addnum.then(returnednumber => {
+          setPersons(persons.concat(returnednumber))
+          setShowAll(persons.concat(returnednumber))
+          newID++
+          setNotificationMessage(
+            {message:`succesfully added: "${returnednumber.name}" 
+              with the number ${returnednumber.number}`, 
+              state: "success"}
+            )
+            resetNotificationAfterTime(4)
         })
-
-        if (replaceExistingName === false){    
-            const addnum = backend.addNumber(number)
-            addnum.then(returnednumber => {
-            setPersons(persons.concat(returnednumber))
-            setShowAll(persons.concat(returnednumber))
-            newID++
-            setNotificationMessage(
-              {message:`succesfully added: "${returnednumber.name}" 
-               with the number ${returnednumber.number}`, 
-               state: "success"}
-              )
-              resetNotificationAfterTime(4)
+      }
+      else
+      {
+          const addnum = backend.editNumber(number, replaceWithThisID)
+          addnum.then(returnednumber => 
+          {
+              persons[replaceWithThisID - 1] = returnednumber
+              setPersons(persons)
+              setShowAll(persons)
+              setNotificationMessage(
+                {message:`succesfully edited: "${returnednumber.name}" 
+                  with the number ${returnednumber.number}`, 
+                  state: "success"}
+                )
+                resetNotificationAfterTime(4)
           })
-        }
-        else
-        {
-            const addnum = backend.editNumber(number, replaceWithThisID)
-            addnum.then(returnednumber => 
-            {
-                persons[replaceWithThisID - 1] = returnednumber
-                setPersons(persons)
-                setShowAll(persons)
-                setNotificationMessage(
-                  {message:`succesfully edited: "${returnednumber.name}" 
-                   with the number ${returnednumber.number}`, 
-                   state: "success"}
-                  )
-                  resetNotificationAfterTime(4)
-            })
-        }                               
-        setNewName('')
-        setNewPNum('')
-    }
+      }                               
+      setNewName('')
+      setNewPNum('')
+  }
   
   const handleNameChange = (event) =>{
     setNewName(event.target.value)
@@ -144,15 +161,21 @@ const App = () => {
     setNewPNum(event.target.value)
   }
 
+  let personToDelete=null
   const deleteNum = (id) =>{
     if(window.confirm("Are you sure you wan't to delete this number?")){
         backend.deleteNumber(id).then(
-            setPersons(persons.filter(person => 
-                person.id === id ? false : true
-            )),
-            setShowAll(persons.filter(person => 
-                person.id === id ? false : true
-            )))
+            
+          personToDelete = persons[id],
+
+          setPersons(persons.filter(person => 
+              person === personToDelete ? false : true
+          )),
+          setShowAll(persons.filter(person => 
+              person === personToDelete ? false : true
+          )),
+            //displayNotification()
+          )
     }}
       
   return (
