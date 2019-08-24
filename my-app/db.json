@@ -1,21 +1,9 @@
 {
   "notes": [
     {
-      "id": 1,
-      "content": "afs",
-      "date": "2019-08-23T20:40:17.940Z",
-      "important": true
-    },
-    {
       "id": 2,
       "content": "sfa",
       "date": "2019-08-23T20:40:19.530Z",
-      "important": false
-    },
-    {
-      "id": 3,
-      "content": "af",
-      "date": "2019-08-23T20:55:49.214Z",
       "important": false
     },
     {
@@ -29,6 +17,24 @@
       "content": "gamers are oppressed",
       "date": "2019-08-23T20:55:56.606Z",
       "important": false
+    },
+    {
+      "id": 6,
+      "content": "gjuljg",
+      "date": "2019-08-24T07:24:46.955Z",
+      "important": true
+    },
+    {
+      "id": 7,
+      "content": "sgd",
+      "date": "2019-08-24T07:35:01.447Z",
+      "important": true
+    },
+    {
+      "id": 8,
+      "content": "hfs",
+      "date": "2019-08-24T07:41:11.500Z",
+      "important": true
     }
   ]
 }

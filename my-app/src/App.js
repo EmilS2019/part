@@ -3,42 +3,13 @@ import Note from './Note.js'
 import axios from 'axios'
 import './index.css'
 import noteService from './services/notes'
+import error from './services/error'
 
 //npx json-server --port 3001 --watch db.json
+//npm start
 
-const Footer = () =>{
-  const footerStyle = {
-    clear:'both',
-    position: 'absolute',
-    height:'2.5rem',
-    bottom: '0',
-    left: '0',
-    width: '100%',
-    color: 'white',
-    fontStyle: 'italic',
-    background:'#333',
-    textAlign: 'center',
-
-
-  }
-
-  return (
-  <div style={footerStyle}>
-    <br />
-    <em>Note app, Kattenelvis</em>
-  </div>)
-} 
-
-const Notification = ({ message }) => {
-  if (message === null){
-      return null
-  }
-  return (
-      <div className="error">
-          {message}
-      </div>
-  )
-}
+const Footer = error.Footer
+const Notification = error.Notification
 
 const App = () => {
   const [notes, setNotes] = useState([]) 
